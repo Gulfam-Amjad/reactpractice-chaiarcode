@@ -9,8 +9,6 @@ function App() {
 
   // let counter= 15;
   const addvalue = () =>{
-    // console.log("clicked", counter);
-    // counter=counter + 1;
     if (counter<20) {
           setCounter(counter + 1 )
     }else{
