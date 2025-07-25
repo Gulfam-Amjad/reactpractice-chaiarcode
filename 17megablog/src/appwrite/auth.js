@@ -1,49 +1,50 @@
-import {ID, client, account} from 'appwrite'
+import {ID, Client, Account} from 'appwrite'
 import conf from '../conf/conf';
 
 export class Authservice {
-      client= new client();
+      client= new Client();
       account;
 
       constructor(){
-          this.client()
+          this.client
             .setEndpoint(conf.appwriteurl)
             .setProject(conf.appwriteProjectId)
 
-            this.account = new account(this.client)
+            this.account = new Account(this.client)
       }
 
 
       async createAccount({email, password, name}){
         try {
-          const userAccont = await this.account.create(ID.unique(), email, password, name)
+          const userAccount = await this.account.create(ID.unique(), email, password, name)
 
-            if (userAccont) {
+            if (userAccount) {
                 // the place for the login...means when a person create acc login it
-                this.loginAccont({email ,password})
+                return await this.loginAccount({email ,password})
             } else {
-                console.error();
+                console.error(error);
             }
         } catch (error) {
-            console.error();
+            console.error(error);
         }
       }
 
 
-      async loginAccont({email, password}){
+      async loginAccount({email, password}){
         try {
-             await this.account.createEmailPasswordSession(email, password)
+            return await this.account.createEmailPasswordSession(email, password)
         } catch (error) {
-            console.error();
+            console.error(error);
+             return null; 
         }
       }
 
      
-      async getCurrentUSer(){
+      async getCurrentUser(){
         try {
-            await this.account.get();
+          return  await this.account.get();
         } catch (error) {
-            console.error();
+            console.error(error);
         }
       }
 
@@ -52,7 +53,7 @@ export class Authservice {
         try {
             await this.account.deleteSessions();
         } catch (error) {
-            console.error();
+            console.error(error);
             
         }
       }
